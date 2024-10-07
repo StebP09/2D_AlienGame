@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://one2nhua0vik"]
+
+[ext_resource type="Texture2D" uid="uid://8u3rpgxmsvsm" path="res://graphics/projectiles/blue.png" id="1_s3mmg"]
+[ext_resource type="Script" path="res://scenes/projectiles/laser.gd" id="1_vw4nx"]
+[ext_resource type="AudioStream" uid="uid://dtfq8efi5lcmh" path="res://UltimateGodotIntro2D-main/resources/audio/laser.wav" id="3_0x1cm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ejj51"]
+radius = 6.0
+height = 118.0
+
+[node name="Laser" type="Area2D"]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_vw4nx")
+speed = 2000
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, 20)
+texture = ExtResource("1_s3mmg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ejj51")
+
+[node name="SelfDestructTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_0x1cm")
+autoplay = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="SelfDestructTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="SelfDestructTimer" to="." method="_on_self_destruct_timer_timeout"]

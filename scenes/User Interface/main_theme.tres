@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://pqpc1k0406tv"]
+
+[ext_resource type="FontFile" uid="uid://ts0j6mhq77n5" path="res://graphics/ui/subatomic.tsoonami.ttf" id="1_5r6ux"]
+
+[resource]
+default_font = ExtResource("1_5r6ux")
+default_font_size = 25

@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://ba1rhqgappd8k"]
+
+[ext_resource type="Script" path="res://scenes/enemies/scout.gd" id="1_dd12r"]
+[ext_resource type="Texture2D" uid="uid://did25usp04sx0" path="res://graphics/enemies/scout.png" id="1_ix1j6"]
+[ext_resource type="Shader" path="res://scenes/enemies/scout.gdshader" id="2_axt21"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e0ta8"]
+shader = ExtResource("2_axt21")
+shader_parameter/color = Color(1, 0.422735, 0.485896, 1)
+shader_parameter/progress = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_al130"]
+radius = 49.163
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hrykw"]
+radius = 1032.02
+
+[node name="Scout" type="CharacterBody2D" groups=["Entity", "Scouts"]]
+collision_layer = 2
+collision_mask = 15
+script = ExtResource("1_dd12r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_e0ta8")
+position = Vector2(38, 27)
+rotation = 1.5708
+texture = ExtResource("1_ix1j6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_al130")
+
+[node name="AttackArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_hrykw")
+
+[node name="LaserSpawnPositions" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="LaserSpawnPositions"]
+position = Vector2(116, -25)
+
+[node name="Marker2D2" type="Marker2D" parent="LaserSpawnPositions"]
+position = Vector2(117, 11)
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="HitTimer" type="Timer" parent="Timers"]
+wait_time = 0.5
+one_shot = true
+
+[node name="LaserTimer" type="Timer" parent="Timers"]
+
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
+[connection signal="timeout" from="Timers/HitTimer" to="." method="_on_hit_timer_timeout"]
+[connection signal="timeout" from="Timers/LaserTimer" to="." method="_on_laser_timer_timeout"]
